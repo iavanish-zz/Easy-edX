@@ -26,6 +26,7 @@ Then, run this script. No need of having root access for running this script. On
 
 Command: sudo ./clone_edX.sh
 </li>
+</ul>
 <br>
 
 <h4>WebApp</h4>
