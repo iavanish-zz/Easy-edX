@@ -25,7 +25,7 @@ echo
 
 # Installing git
 echo "Installing git..."
-apt-get install git
+apt-get install git -y
 echo "Installed git"
 
 echo
