@@ -22,7 +22,7 @@ Run this script with root access. Once this script finishes, a full stack versio
 First create a clone of the initially installed full stack instance of edX, and name it Clone-able-edX.
 Then, run this script. No need of having root access for running this script. Once this script finishes, a new instance of edX will be created (by cloning the Clone-able-edX machine).
 <br>
-<b><i>Command:</b> sudo ./clone_edX.sh</i><br><br>
+<b><i>Command:</b> ./clone_edX.sh</i><br><br>
 </li>
 </ul>
 <br>
