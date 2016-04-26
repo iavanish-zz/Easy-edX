@@ -33,10 +33,9 @@
 
 				if(isset($_POST['submit-form'])) {
 
-					echo "<div class=\"w3-row-padding w3-right w3-margin-top\">";
+					echo "<div class=\"w3-row-padding w3-center w3-margin-top\">";
 
-
-		           	echo "<div class=\"w3-half\">";
+		           	echo "<div class=\"w3-col\">";
         	        echo "<div class=\"w3-card-2 w3-padding-top\" style=\"min_height:600px\">";
 					
 					$instructorsID = $_POST['instructorsID'];
@@ -58,38 +57,74 @@
 					else {
 						if(!ssh2_auth_password($con, "avanish1404", "avanish")) {
 							echo "Can't authenticate. Terminated!!<br><br>";
+							die("Can't authenticate. Terminated!!");
 						}
 
-						if(!($clone = ssh2_exec($con, "VBoxManage clonevm Clone-able-edX --mode machine --options keepnatmacs --name test --register"))) {
+						$shellScript = "VBoxManage clonevm Clone-able-edX --mode machine --options keepnatmacs --name " . $machineName . " --register";
+						if(!($clone = ssh2_exec($con, $shellScript))) {
 							echo "Unable to clone. Server issues. Terminated!!<br><br>";
 						}
 						else {
+							$lMSPort = rand(10000, 65535);
+							$studioPort = rand(10000, 65535);
+							$sshPort = rand(10000, 65535);
+
 							sleep(30);
-
-							$lMSPort = rand(1000, 65535);
-							$studioPort = rand(1000, 65535);
-
-							$lMSPortForward = "VBoxManage modifyvm test --natpf1 \"Rule1,TCP,," . $lMSPort . ",10.0.2.15,80\"";
-							if(!($portF1 = ssh2_exec($con, $lMSPortForward))) {
+							$shellScript = "VBoxManage modifyvm " . $machineName . " --natpf1 \"Rule1,TCP,," . $lMSPort . ",10.0.2.15,80\"";
+							if(!($portF1 = ssh2_exec($con, $shellScript))) {
 								echo "Can't perform port forwarding. Server issues. Terminated!!<br><br>";
 							}
-							sleep(5);
 
-							$studioPortForward = "VBoxManage modifyvm test --natpf1 \"Rule2,TCP,," . $studioPort . ",10.0.2.15,18010\"";
-							if(!($portF2 = ssh2_exec($con, $studioPortForward))) {
+							sleep(2);
+							$shellScript = "VBoxManage modifyvm " . $machineName . " --natpf1 \"Rule2,TCP,," . $studioPort . ",10.0.2.15,18010\"";
+							if(!($portF2 = ssh2_exec($con, $shellScript))) {
 								echo "Can't perform port forwarding. Server issues. Terminated!!<br><br>";						
 							}
-							sleep(5);
-							if(!($startVM = ssh2_exec($con, "VBoxManage startvm test --type headless"))) {
+
+							sleep(2);
+							$shellScript = "VBoxManage modifyvm " . $machineName . " --natpf1 \"Rule3,TCP,," . $sshPort . ",10.0.2.15,22\"";
+							if(!($portF2 = ssh2_exec($con, $shellScript))) {
+								echo "Can't perform port forwarding. Server issues. Terminated!!<br><br>";						
+							}
+
+							sleep(2);
+							$shellScript = "VBoxManage startvm " . $machineName . " --type headless";
+							if(!($startVM = ssh2_exec($con, $shellScript))) {
 								echo "Could not start the new edX instance. Server issues. Terminated!!<br><br>";
 							}
 
-							sleep(60);
-							echo "Your edX LMS: <a href=\"http://192.168.1.243:" . $lMSPort . "/\">192.168.1.243:" . $lMSPort . "</a><br><br>";
-							echo "Your edX Studio: <a href=\"http://192.168.1.243:" . $studioPort . "/\">192.168.1.243:" . $studioPort . "</a><br><br>";
+							sleep(30);
+
+							/*
+							if(!($subCon = ssh2_connect("192.168.1.243", $sshPort))) {
+								echo "Can't connect to the new machine. So, can't create user accounts. Server issues. Terminated!!<br><br>";
+							}
+							else {
+								if(!ssh2_auth_password($subCon, "avanish1404", " ")) {
+									echo "Can't authenticate with the new machine. So, can't create user accounts. Server issues. Terminated!!<br><br>";
+								}
+								else {
+									$shellScript = "cd /edx/app/edxapp/edx-platform";
+									if(!($changeDIR = ssh2_exec($subCon, $shellScript))) {
+										echo "Can't change directory<br><br>";
+									}
+									$shellScript = "sudo -u www-data /edx/bin/python.edxapp ./manage.py lms --settings aws create_user -e xyz@example.com -u xyz -p 12345678";
+									if(!($createUser = ssh2_exec($subCon, $shellScript))) {
+										echo "Can't create user<br><br>";
+									}					
+									sleep(5);
+								}
+							}
+							*/
+
+							echo "<h5><b>Your machine name is: " . $machineName . "</b><h5><br><br>";
+							echo "<h5><b>Your edX LMS: <a href=\"http://192.168.1.243:" . $lMSPort . "/\" target=\"_blank\">192.168.1.243:" . $lMSPort . "</a></b></h5><br><br>";
+							echo "<h5><b>Your edX Studio: <a href=\"http://192.168.1.243:" . $studioPort . "/\" target=\"_blank\">192.168.1.243:" . $studioPort . "</a></b></h5><br><br>";		
+							echo "The user accounts are created. The passwords for the accounts are the respective email IDs. Please ask the users to change their passwords soon.<br><br>";					
 						}
 					}
 
+					echo "</div>";
 					echo "</div>";
 					echo "</div>";
 					
