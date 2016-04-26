@@ -1,9 +1,7 @@
 # CapstoneProject
-<br>
 <h3>Course management system using Open edX</h3>
-<br><br>
-<h4>edX_ServerSetupScripts</h4>
 <br>
+<h4>edX_ServerSetupScripts</h4>
 <ul>
 <li>
 <b>virtualBoxSetup.sh</b><br>
