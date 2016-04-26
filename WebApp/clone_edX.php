@@ -120,7 +120,7 @@
 							echo "<h5><b>Your machine name is: " . $machineName . "</b><h5><br><br>";
 							echo "<h5><b>Your edX LMS: <a href=\"http://192.168.1.243:" . $lMSPort . "/\" target=\"_blank\">192.168.1.243:" . $lMSPort . "</a></b></h5><br><br>";
 							echo "<h5><b>Your edX Studio: <a href=\"http://192.168.1.243:" . $studioPort . "/\" target=\"_blank\">192.168.1.243:" . $studioPort . "</a></b></h5><br><br>";		
-							echo "The user accounts are created. The passwords for the accounts are the respective email IDs. Please ask the users to change their passwords soon.<br><br>";					
+							echo "The user accounts are created. The passwords for all the accounts is \"12345678\". Please ask the users to change their passwords soon.<br><br>";					
 						}
 					}
 
