@@ -24,9 +24,11 @@ Command: sudo ./clone_edX.sh
 <h4>WebApp</h4>
 
 <b>Deployment procedure:</b>
-1. On an Ubuntu machine (preferably 14.04), install apache2 and php5.
-2. Copy the contents of the folder WebApp (https://github.com/iavanish/CapstoneProject/tree/master/WebApp) into /var/www/html folder.
-3. Run the following command on a terminal:
-    sudo /etc/init.d/apache2 start
+<ol>
+<li>On an Ubuntu machine (preferably 14.04), install apache2 and php5.</li>
+<li>Copy the contents of the folder WebApp (https://github.com/iavanish/CapstoneProject/tree/master/WebApp) into /var/www/html folder</li>
+<li>Run the following command on a terminal:<br>
+    sudo /etc/init.d/apache2 start</li>
+</ol>
 
 Now, the  web application is deployed and ready to be used.
