@@ -1,4 +1,4 @@
-# CapstoneProject
+# Easy-edX
 <h3>Course management system using Open edX</h3>
 <br>
 <h4>edX_ServerSetupScripts</h4>
